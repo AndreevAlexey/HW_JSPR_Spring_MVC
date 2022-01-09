@@ -1,7 +1,10 @@
 package REST.controller;
 
+import REST.exception.NotFoundException;
 import REST.model.Post;
 import REST.service.PostService;
+import org.apache.catalina.connector.Response;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -30,7 +33,12 @@ public class PostController {
     }
 
     @DeleteMapping("/{id}")
-    public void removeById(long id) {
+    public void removeById(@PathVariable long id) {
         service.removeById(id);
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NotFoundException.class)
+    public void handleException(NotFoundException e) {
     }
 }
